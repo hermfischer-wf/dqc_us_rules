@@ -1,9 +1,38 @@
-Current Rules:
+Data Quality Committee Rules
 
-[DQC 4](DQC_US_0004/DQC_US_0004.md)
-[DQC 5](DQC_US_0005/DQC_US_0005.md)
-[DQC 6](DQC_US_0006/DQC_US_0006.md)
-[DQC 9](DQC_US_0009/DQC_US_0009.md)
-[DQC 15](DQC_US_0015/DQC_US_00015.md)
-[DQC 33](DQC_US_0033/DQC_US_00033.md)
-[DQC 36](DQC_US_0036/DQC_US_00036.md)
+<table>
+  <tr>
+    <td>Number</td>
+    <td>Short name</td>
+  </tr>
+  <tr>
+    <td>DQC_US_0004</td>
+    <td>Element values are equal</td>
+  </tr>
+  <tr>
+    <td>DQC_US_0005</td>
+    <td>Context dates after period end date</td>
+  </tr>
+  <tr>
+    <td>DQC_US_0006</td>
+    <td>DEI and block tag date contexts</td>
+  </tr>
+  <tr>
+    <td>DQC_US_0009</td>
+    <td>Element A must be less than or equal to element B</td>
+  </tr>
+  <tr>
+    <td>DQC_US_0015</td>
+    <td>Negative values</td>
+  </tr>
+  <tr>
+    <td>DQC_US_0033</td>
+    <td>Document period end date context</td>
+  </tr>
+  <tr>
+    <td>DQC_US_0036</td>
+    <td>Document period end date context/fact value check</td>
+  </tr>
+</table>
+
+
