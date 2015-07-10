@@ -10,12 +10,18 @@ DEI_NAMESPACE_LIST = ['http://xbrl.sec.gov/dei/2014-01-31', 'http://xbrl.sec.gov
 class TestDocPerEndDateChk(unittest.TestCase):
 
     def setUp(self):
-        m_qn_bad1 = mock.Mock(localName='EntityCommonStockSharesOutstanding', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
-        m_qn_bad2 = mock.Mock(localName='EntityPublicFloat', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
-        m_qn_bad3 = mock.Mock(localName='DocumentPeriodEndDate', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
-        m_qn_good1 = mock.Mock(localName='concept1', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
-        m_qn_good2 = mock.Mock(localName='concept2', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
-        m_qn_good3 = mock.Mock(localName='concept3', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
+        m_qn_bad1 = mock.Mock(
+            localName='EntityCommonStockSharesOutstanding', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
+        m_qn_bad2 = mock.Mock(
+            localName='EntityPublicFloat', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
+        m_qn_bad3 = mock.Mock(
+            localName='DocumentPeriodEndDate', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
+        m_qn_good1 = mock.Mock(
+            localName='concept1', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
+        m_qn_good2 = mock.Mock(
+            localName='concept2', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
+        m_qn_good3 = mock.Mock(
+            localName='concept3', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
         concept_dur1 = mock.Mock(periodType='duration', qname=m_qn_good1)
         concept_dur2 = mock.Mock(periodType='duration', qname=m_qn_good2)
         concept_dur3 = mock.Mock(periodType='duration', qname=m_qn_good3)
@@ -62,7 +68,8 @@ class TestDocPerEndDateChk(unittest.TestCase):
         self.assertEqual(expected_dped, res_dped)
         self.assertEqual(expected_dei, res_dei)
 
-    def test_a_warn(self):
+    @mock.patch('src.dqc_us_0033_0036.dateunionDate', side_effect=lambda x, subtractOneDay: x.date())
+    def test_a_warn(self, mock_func):
         mock_segDimValues = mock.Mock()
         mock_segDimValues.values.return_value = []
         mock_edt_norm = mock.Mock()
@@ -77,11 +84,12 @@ class TestDocPerEndDateChk(unittest.TestCase):
                                       self.fact_shares, self.fact_public, self.fact_end])
 
         res = dpedc._doc_period_end_date_check(mock_model)
-        self.assertTrue(res.get('warning', ''))
-        self.assertTrue(len(res['warning']) == 1)
-        self.assertFalse(res.get('error', ''))
+        self.assertTrue(len(res) == 1)
+        code, message, eop_date, eop_fact, dped_fact = res[0]
+        self.assertEqual(code, 'DQC.US.0036.1')
 
-    def test_an_error(self):
+    @mock.patch('src.dqc_us_0033_0036.dateunionDate', side_effect=lambda x, subtractOneDay: x.date())
+    def test_an_error(self, mock_func):
         mock_segDimValues = mock.Mock()
         mock_segDimValues.values.return_value = []
         mock_edt_norm = mock.Mock()
@@ -95,11 +103,12 @@ class TestDocPerEndDateChk(unittest.TestCase):
         mock_model = mock.Mock(
             facts=[self.fact_good1, self.fact_good2, self.fact_good3, self.fact_bad1, self.fact_bad2, self.fact_bad3, self.fact_end])
         res = dpedc._doc_period_end_date_check(mock_model)
-        self.assertTrue(res.get('error', ''))
-        self.assertTrue(len(res['error']) == 1)
-        self.assertFalse(res.get('warning', ''))
+        self.assertTrue(len(res) == 1)
+        code, message, eop_date, eop_fact, dped_fact = res[0]
+        self.assertEqual(code, 'DQC.US.0033.2')
 
-    def test_a_warn_and_error(self):
+    @mock.patch('src.dqc_us_0033_0036.dateunionDate', side_effect=lambda x, subtractOneDay: x.date())
+    def test_a_warn_and_error(self, mock_func):
         mock_mem_qn = mock.Mock(localName='foo')
         mock_dim_qn = mock.Mock(localName='LegalEntityAxis')
         mock_dim_dim = mock.Mock(qname=mock_dim_qn)
@@ -118,6 +127,7 @@ class TestDocPerEndDateChk(unittest.TestCase):
         mock_edt_off = mock.Mock()
         mock_edt_off.date.return_value = date(year=2015, month=2, day=1)
         mock_off_context = mock.Mock(endDatetime=mock_edt_off, segDimValues=mock_segDimValues)
+        mock_off_context_lea = mock.Mock(endDatetime=mock_edt_off, segDimValues=mock_more_dims)
 
         m_qn_bad = mock.Mock(
             localName='DocumentPeriodEndDate', namespaceURI='http://xbrl.sec.gov/dei/2014-01-31')
@@ -131,7 +141,4 @@ class TestDocPerEndDateChk(unittest.TestCase):
                                       self.fact_bad1, self.fact_bad2, self.fact_bad3, self.fact_end, mock_dped_off])
 
         res = dpedc._doc_period_end_date_check(mock_model)
-        self.assertTrue(res.get('error', ''))
-        self.assertTrue(len(res['error']) == 1)
-        self.assertTrue(res.get('warning', ''))
-        self.assertTrue(len(res['warning']) == 1)
+        self.assertEqual(len(res), 1)  # Only expect one because test 33 will not happen if 36 fires.

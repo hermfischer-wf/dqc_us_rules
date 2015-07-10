@@ -24,7 +24,7 @@ def validate_dates_within_periods(val):
     dict_of_facts = _date_range_check(CHECK_TYPES, CHECK_DEI, DATE_BOUNDS_DICT, val.modelXbrl)
     for document_fiscal_period_focus, fact_list in dict_of_facts.items():
         for fact in fact_list:
-            val.modelXbrl.error(_CODE_NAME, messages.get_message("6"), concept=fact.qname,
+            val.modelXbrl.error('{}.14'.format(_CODE_NAME), messages.get_message(_CODE_NAME), concept=fact.qname,
                                 period=document_fiscal_period_focus.xValue,
                                 modelObject=[fact, document_fiscal_period_focus],
                                 ruleVersion=_RULE_VERSION)

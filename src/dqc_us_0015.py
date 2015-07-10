@@ -20,8 +20,8 @@ def run_negative_numbers(val):
     blacklist_facts = filter_negative_number_facts(val, blacklist_dict.keys())
     for fact in blacklist_facts:
         index_key = blacklist_dict[fact.qname.localName]
-        val.modelXbrl.error('{base_key}:{extension_key}'.format(base_key=_CODE_NAME, extension_key=index_key),
-                            messages.get_message("15", str(index_key)), concept=fact.concept.label(), modelObject=fact,
+        val.modelXbrl.error('{base_key}.{extension_key}'.format(base_key=_CODE_NAME, extension_key=index_key),
+                            messages.get_message(_CODE_NAME, str(index_key)), concept=fact.concept.label(), modelObject=fact,
                             ruleVersion=_RULE_VERSION)
 
 
