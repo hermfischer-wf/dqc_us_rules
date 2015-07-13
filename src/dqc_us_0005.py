@@ -1,7 +1,9 @@
+# Copyright (c) 2015, Workiva Inc.  All rights reserved
+# Copyright (c) 2015, XBRL US Inc.  All rights reserved
 import re
-from datetime import timedelta
 from .util import facts, messages
 
+from arelle.XmlUtil import dateunionValue
 
 LEGALENTITYAXIS_DEFAULT = ''
 _dei_pattern = re.compile(r'^http://xbrl\.((sec\.gov)|(us))/dei/\d{4}-\d{2}-\d{2}')
@@ -25,13 +27,13 @@ def _get_end_of_period(val):
             for fact in end_of_period_facts:
                 eop_date = fact.xValue
                 # Get maximum of fact value and fact's context end date
-                if fact.context:
+                if fact.context is not None:
                     eop_context_end = fact.context.endDatetime
-                    date_str = eop_date.strftime('%m-%d-%Y')
+                    date_str = dateunionValue(eop_context_end, subtractOneDay=True)
                     if eop_context_end is not None and (eop_date is None or eop_context_end > eop_date):
                         eop_date = eop_context_end
                         # end dates have a time of 24:00 so adjust them back 1 day
-                        date_str = (eop_date - timedelta(days=1)).strftime('%m-%d-%Y')
+                        date_str = dateunionValue(eop_date, subtractOneDay=True)
                     if lea_member in results:
                         if results[lea_member][1] < eop_date:
                             results[lea_member] = (fact, eop_date, date_str)
@@ -47,26 +49,24 @@ def validate_facts(val):
         lookup = lea_member if lea_member in eop_results else facts.LEGALENTITYAXIS_DEFAULT
         if lookup in eop_results:
             for fact in fact_list:
-                fact_date = fact.context.instantDatetime or fact.context.endDatetime
+                fact_date = fact.context.endDatetime  # endDateTime will be the instant date time if this is an instant period
                 if fact_date is not None:
-                    fact_date = fact_date - timedelta(days=1)
                     # Check for the case where a fact is less than the expected eop dates
-                    if fact_date <= eop_results[lookup][1]:
-                    # if a fact whose qname is EntityCommonStockSharesOutstanding has an end date prior to eop then fire an error
+                    comparison_date = eop_results[lookup][1]
+                    if fact_date <= comparison_date:
                         if fact.localName == 'EntityCommonStockSharesOutstanding':
-                            val.modelXbrl.error('{base_code}:17'.format(base_code=_CODE_NAME), messages.get_message("5", "17"),
-                                                entity_date=fact_date.strftime('%-m/%-d/%Y'), eop_date=eop_results[lookup][2],
-                                                modelObject=[fact, eop_results[lookup][0]],
-                                                ruleVersion=_RULE_VERSION)
+                            # if a fact whose qname is EntityCommonStockSharesOutstanding has an end date prior to eop then fire an error
+                            if fact_date < comparison_date:  # Only fire if it is actually less than the comparison date
+                                val.modelXbrl.error('{base_code}.17'.format(base_code=_CODE_NAME), messages.get_message(_CODE_NAME, "17"),
+                                                    modelObject=[fact] + list(eop_results[lookup]),
+                                                    ruleVersion=_RULE_VERSION)
                         elif facts.axis_exists(val, fact, 'SubsequentEventTypeAxis'):
-                            val.modelXbrl.error('{base_code}:48'.format(base_code=_CODE_NAME), messages.get_message("5", "48"),
-                                                eop_date=eop_results[lookup][2],
-                                                modelObject=[fact, eop_results[lookup][0]],
+                            val.modelXbrl.error('{base_code}.48'.format(base_code=_CODE_NAME), messages.get_message(_CODE_NAME, "48"),
+                                                modelObject=[fact] + list(eop_results[lookup]),
                                                 ruleVersion=_RULE_VERSION)
                         elif facts.axis_member_exists(val, fact, 'StatementScenarioAxis', 'ScenarioForecastMember'):
-                            val.modelXbrl.error('{base_code}:49'.format(base_code=_CODE_NAME), messages.get_message("5", "49"),
-                                                eop_date=eop_results[lookup][2],
-                                                modelObject=[fact, eop_results[lookup][0]],
+                            val.modelXbrl.error('{base_code}.49'.format(base_code=_CODE_NAME), messages.get_message(_CODE_NAME, "49"),
+                                                modelObject=[fact] + list(eop_results[lookup]),
                                                 ruleVersion=_RULE_VERSION)
 
 __pluginInfo__ = {

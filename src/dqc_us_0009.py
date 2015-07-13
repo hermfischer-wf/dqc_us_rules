@@ -1,3 +1,5 @@
+# Copyright (c) 2015, Workiva Inc.  All rights reserved
+# Copyright (c) 2015, XBRL US Inc.  All rights reserved
 from .util import facts, messages
 import csv
 import os
@@ -16,8 +18,8 @@ def fact_gt_other_fact(val):
         for fact_group in _compare_facts(lesser, greater, val):
             lesser_fact = fact_group[lesser]
             greater_fact = fact_group[greater]
-            val.modelXbrl.error('{base_code}:{index_id}'.format(base_code=_CODE_NAME, index_id=index),
-                                messages.get_message("9", index),
+            val.modelXbrl.error('{base_code}.{index_id}'.format(base_code=_CODE_NAME, index_id=index),
+                                messages.get_message(_CODE_NAME, index),
                                 modelObject=[lesser_fact, greater_fact],
                                 lesser_label=lesser_fact.concept.label(),
                                 greater_label=greater_fact.concept.label(),
@@ -25,7 +27,7 @@ def fact_gt_other_fact(val):
 
 
 def _read_csv():
-    path = os.path.join(os.path.dirname(__file__), 'resources/DQC_US_0009/dqc_us_9_config.csv')
+    path = os.path.join(os.path.dirname(__file__), 'dqc_us_9_resources/dqc_us_9_config.csv')
     with open(path, 'rt') as f:
         reader = csv.reader(f)
         next(reader)  # skip header

@@ -1,3 +1,5 @@
+# Copyright (c) 2015, Workiva Inc.  All rights reserved
+# Copyright (c) 2015, XBRL US Inc.  All rights reserved
 import json
 import os.path
 
@@ -29,5 +31,5 @@ def get_message(primary_number, secondary_number='default'):
     if not _LOADED_MESSAGES:
         _load_messages()
     if primary_number not in _LOADED_MESSAGES:
-        return None
+        return '(Message code not found)'
     return _LOADED_MESSAGES[primary_number].get(secondary_number, _LOADED_MESSAGES[primary_number]['default'])

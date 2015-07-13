@@ -1,5 +1,8 @@
-from datetime import timedelta
+# Copyright (c) 2015, Workiva Inc.  All rights reserved
+# Copyright (c) 2015, XBRL US Inc.  All rights reserved
 from .util import facts, messages
+
+from arelle.ValidateXbrlCalcs import inferredDecimals, roundValue
 
 _ASSETS_CONCEPT = 'Assets'
 _LIABILITIES_CONCEPT = 'LiabilitiesAndStockholdersEquity'
@@ -11,8 +14,8 @@ def assets_eq_liability_equity(val):
     """
     Assets equals Liabilities and Stockholders Equity
     """
-    for fact_assets, fact_liabilities, reporting_date in _assets_eq_liability_equity(val.modelXbrl):
-        val.modelXbrl.error(_CODE_NAME, messages.get_message("4"), reporting_date=reporting_date.strftime('%-m/%-d/%Y'),
+    for fact_assets, fact_liabilities in _assets_eq_liability_equity(val.modelXbrl):
+        val.modelXbrl.error('{}.16'.format(_CODE_NAME), messages.get_message(_CODE_NAME),
                             modelObject=[fact_assets, fact_liabilities], ruleVersion=_RULE_VERSION)
 
 
@@ -32,10 +35,12 @@ def _assets_eq_liability_equity(modelXbrl):
         for fact_group in fact_groups:
             fact_assets = fact_group[_ASSETS_CONCEPT]
             fact_liabilities = fact_group[_LIABILITIES_CONCEPT]
-            if fact_assets.context and fact_assets.context.instantDatetime:
-                if fact_assets.xValue != fact_liabilities.xValue:
-                    reporting_date = fact_assets.context.instantDatetime - timedelta(days=1)
-                    yield fact_assets, fact_liabilities, reporting_date
+            if fact_assets.context is not None and fact_assets.context.instantDatetime is not None:
+                dec_assets = inferredDecimals(fact_assets)
+                dec_liabilities = inferredDecimals(fact_liabilities)
+                min_dec = min(dec_assets, dec_liabilities)
+                if roundValue(fact_assets.xValue, decimals=min_dec) != roundValue(fact_liabilities.xValue, decimals=min_dec):
+                    yield fact_assets, fact_liabilities
 
 
 __pluginInfo__ = {

@@ -1,6 +1,8 @@
+# Copyright (c) 2015, Workiva Inc.  All rights reserved
+# Copyright (c) 2015, XBRL US Inc.  All rights reserved
 import unittest
 from src import dqc_us_0005
-from mock import Mock
+from mock import Mock, patch
 from datetime import date
 import src.util.facts
 
@@ -43,13 +45,14 @@ class TestContextChecks(unittest.TestCase):
         for ns in should_fail_list:
             self.assertFalse(dqc_us_0005._dei_pattern.match(ns))
 
-    def test_get_end_of_period_no_concept(self):
+    @patch('src.dqc_us_0005.dateunionValue', return_value='2015-01-01')
+    def test_get_end_of_period_no_concept(self, mock_func):
         mock_val = Mock(modelXbrl=self.mock_model, disclosureSystem=self.mock_disclosure)
         eop_dict = dqc_us_0005._get_end_of_period(mock_val)
         found_fact, found_date, date_str = eop_dict['']
         self.assertIsNotNone(found_fact.xValue, 'Should have a found_fact, instead had "{}"'.format(found_fact))
         self.assertIsNotNone(found_date, 'Should have a found_date, instead had "{}"'.format(found_date))
-        self.assertEqual('01-01-2015', date_str, 'Should have an empty string with the date string when we have no facts, instead had "{}"'.format(date_str))
+        self.assertEqual('2015-01-01', date_str, 'Should have a string with the date string when we have no concept, instead had "{}"'.format(date_str))
 
     def test_axis_exists_multi_axis(self):
         mock_val = Mock(disclosureSystem=Mock(standardTaxonomiesDict={'namespace': None}))

@@ -1,12 +1,15 @@
+# Copyright (c) 2015, Workiva Inc.  All rights reserved
+# Copyright (c) 2015, XBRL US Inc.  All rights reserved
 import unittest
 from datetime import datetime, timedelta
 from src.dqc_us_0004 import _assets_eq_liability_equity, _ASSETS_CONCEPT, _LIABILITIES_CONCEPT
-from mock import Mock
+from mock import Mock, patch
 
 
 class TestAssetsEqLiabilityEquity(unittest.TestCase):
 
-    def test_bv_errors(self):
+    @patch('src.dqc_us_0004.inferredDecimals', return_value=0)
+    def test_bv_errors(self, patched_decimals):
         asset_concept = Mock()
         asset_concept.qname = _ASSETS_CONCEPT
         liabilities_concept = Mock()
@@ -32,11 +35,10 @@ class TestAssetsEqLiabilityEquity(unittest.TestCase):
         modelXbrl.factsByQname = mock_facts_by_qname
 
         error_count = 0
-        for asset, liability, date in _assets_eq_liability_equity(modelXbrl):
+        for asset, liability in _assets_eq_liability_equity(modelXbrl):
             error_count += 1
             self.assertEqual(asset, asset_fact)
             self.assertEqual(liability, liabilities_fact)
-            self.assertEqual(date, datetime(2013, 12, 22, 11, 30, 59) - timedelta(days=1))
 
         self.assertEqual(error_count, 1)
 
