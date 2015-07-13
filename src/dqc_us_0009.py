@@ -27,7 +27,7 @@ def fact_gt_other_fact(val):
 
 
 def _read_csv():
-    path = os.path.join(os.path.dirname(__file__), 'dqc_us_9_resources/dqc_us_9_config.csv')
+    path = os.path.join(os.path.dirname(__file__), 'resources/DQC_US_0009/dqc_us_9_config.csv')
     with open(path, 'rt') as f:
         reader = csv.reader(f)
         next(reader)  # skip header
