@@ -1,38 +1,12 @@
 Data Quality Committee Rules
 
-<table>
-  <tr>
-    <td>Number</td>
-    <td>Short name</td>
-  </tr>
-  <tr>
-    <td>DQC_US_0004</td>
-    <td>Element values are equal</td>
-  </tr>
-  <tr>
-    <td>DQC_US_0005</td>
-    <td>Context dates after period end date</td>
-  </tr>
-  <tr>
-    <td>DQC_US_0006</td>
-    <td>DEI and block tag date contexts</td>
-  </tr>
-  <tr>
-    <td>DQC_US_0009</td>
-    <td>Element A must be less than or equal to element B</td>
-  </tr>
-  <tr>
-    <td>DQC_US_0015</td>
-    <td>Negative values</td>
-  </tr>
-  <tr>
-    <td>DQC_US_0033</td>
-    <td>Document period end date context</td>
-  </tr>
-  <tr>
-    <td>DQC_US_0036</td>
-    <td>Document period end date context/fact value check</td>
-  </tr>
-</table>
-
+| Number | Short name |
+| ----- | ----- |
+| [DQC_US_0004](https://github.com/susanyount-wf/dqc_us_rules/tree/release_1susan/docs/DQC_US_0004/DQC_0004.md) | Element values are equal |
+|[DQC_US_0005](https://github.com/susanyount-wf/dqc_us_rules/blob/release_1susan/docs/DQC_US_0005/DQC_0005.md) | Context dates after period end date |
+| [DQC_US_0006](https://github.com/susanyount-wf/dqc_us_rules/blob/release_1susan/docs/DQC_US_0006/DQC_0006.md) | DEI and block tag date contexts |
+| [DQC_US_0009](https://github.com/susanyount-wf/dqc_us_rules/blob/release_1susan/docs/DQC_US_0009/DQC_0009.md) | Element A must be less than or equal to element B |
+| [DQC_US_0015](https://github.com/susanyount-wf/dqc_us_rules/blob/release_1susan/docs/DQC_US_0015/DQC_0015.md) | Negative values |
+| [DQC_US_0033](https://github.com/susanyount-wf/dqc_us_rules/blob/release_1susan/docs/DQC_US_0033/DQC_0033.md) | Document period end date context |
+| [DQC_US_0036](https://github.com/susanyount-wf/dqc_us_rules/blob/release_1susan/docs/DQC_US_0036/DQC_0036.md) | Document period end date context/fact value check |
 
