@@ -4,8 +4,8 @@ dqc_us_rules is a plugin for Arelle that contains the agreed upon set of rules f
 
 ## dqc_us_rules contains:
 
-* The agreed upon rules as set forth by the members of the XBRL US Data Quality Committee
-* Reference implementation of the agreed upon rules, using Arelle as an XBRL processor.
+* Draft rules that the XBRL US Data Quality Committee approved to expose for public comment
+* Reference implementation of the draft rules, using Arelle as an XBRL processor
 * Unit tests for the reference implementation
 
 ## Deployment
@@ -61,6 +61,4 @@ The rule definition index is [here](docs/README.md).
 
 ## Change Management
 
-We actively accept, and encourage, pull requests for code changes.  An explanation of what the change is for, and why, is required, and the request will be reviewed by the technical leads of the project.  If the request is accepted, it will be merged into the master branch.  If it is found to be missing something, or incomplete, commments will be noted regarding the missing or incomplete pieces.
-
-To propose new rules, you can submit requests through the [Data Quality Committee](Link Here).
+We actively accept, and encourage, pull requests for code changes.  An explanation of the change is required, and the request will be reviewed by the technical leads of the project.  If the request is accepted, and if required, approved by the Committee, it will be merged into the master branch.  If it is found to be missing something, or incomplete, commments will be noted regarding the missing or incomplete pieces.
