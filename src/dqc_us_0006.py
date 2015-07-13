@@ -1,3 +1,5 @@
+# Copyright (c) 2015, Workiva Inc.  All rights reserved
+# Copyright (c) 2015, XBRL US Inc.  All rights reserved
 from collections import defaultdict
 from datetime import timedelta
 from .util import facts, messages

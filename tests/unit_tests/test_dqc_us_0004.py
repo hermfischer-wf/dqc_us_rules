@@ -1,3 +1,5 @@
+# Copyright (c) 2015, Workiva Inc.  All rights reserved
+# Copyright (c) 2015, XBRL US Inc.  All rights reserved
 import unittest
 from datetime import datetime, timedelta
 from src.dqc_us_0004 import _assets_eq_liability_equity, _ASSETS_CONCEPT, _LIABILITIES_CONCEPT
