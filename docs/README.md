@@ -10,3 +10,6 @@ Data Quality Committee Rules
 | [DQC_US_0033](https://github.com/susanyount-wf/dqc_us_rules/blob/release_1susan/docs/DQC_US_0033/DQC_0033.md) | Document period end date context |
 | [DQC_US_0036](https://github.com/susanyount-wf/dqc_us_rules/blob/release_1susan/docs/DQC_US_0036/DQC_0036.md) | Document period end date context/fact value check |
 
+
+© Copyright 2015, XBRL US Inc, All rights reserved   
+© Copyright 2015, Workiva Inc., All rights reserved
