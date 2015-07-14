@@ -96,31 +96,20 @@ To run the test cases using Arelle (current version):
 
 * Here is a sample  bash file "runDQCTests.sh" for Mac/Linux.
 
-' ' '
-
+```
 #!/bin/bash
-
 TESTCASESROOT={PATH TO TESTCASE}/DQC_Testcases"
-
 OUTPUTLOGFILE={PATH TO WHERE OUTPUT SHOULD GO}/DQC-log.txt
-
 OUTPUTERRFILE={PATH TO WHERE OUTPUT SHOULD GO}/DQC-err.txt
-
 OUTPUTCSVFILE={PATH TO WHERE OUTPUT SHOULD GO}/DQC-report.csv
-
 TESTCASESINDEXFILE="$TESTCASESROOT/index.xml"
-
 ARELLEDIR={PATH TO WHERE ARELLE IS}
+PYTHONPATH=$ARELLEDIR
 
 rm $OUTPUTLOGFILE $OUTPUTERRFILE
 
-PYTHONPATH=$ARELLEDIR
-
-python3.4 -m arelle.CntlrCmdLine --file "$TESTCASESINDEXFILE" --validate --plugins "validate/DQC|logging/dqcParameters.py" --disclosureSystem efm-pragmatic --logCodeFilter '(?!EFM)'
-
- --csvTestReport "$OUTPUTCSVFILE"  --logFile "$OUTPUTLOGFILE" 2>  "$OUTPUTERRFILE"
-
-' ' '
+python3.4 -m arelle.CntlrCmdLine --file "$TESTCASESINDEXFILE" --validate --plugins "validate/DQC|logging/dqcParameters.py" --disclosureSystem efm-pragmatic --logCodeFilter '(?!EFM)' --csvTestReport "$OUTPUTCSVFILE"  --logFile "$OUTPUTLOGFILE" 2>  "$OUTPUTERRFILE"
+```
 
 * Run the bash file nohup scripts/runDQCTests.sh > log/nohup.out &
 
