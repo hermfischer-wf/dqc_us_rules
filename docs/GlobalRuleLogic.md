@@ -38,7 +38,7 @@ Each rule has a dynamic message associated with it that uses ${..} to define the
 
 Messages for rules that return facts as model object references can refer to those facts ordinally, beginning with index 1. The references to these facts can include the following properties:
 
-* ${fact1.name}  Prefixed name of the fact'��s concept.
+* ${fact1.name}  Prefixed name of the fact'€™s concept.
 
 * ${fact1.localName}  The local name (without prefix) of the fact's concept.
 
@@ -78,3 +78,6 @@ Concepts may be provided for message argument fact dimensions and their members,
 
 If there are variable references that can't be resolved, such as missing facts, prefixed named concepts not passed in argument facts or their dimensions, or for any other reason, an error message is logged when using Arelle to indicate the unresolved references.  The variable reference substitutes as "unavailable" in the expanded message text in addition to the error indicating unresolved references.
 
+
+© Copyright 2015, XBRL US Inc, All rights reserved   
+© Copyright 2015, Workiva Inc., All rights reserved

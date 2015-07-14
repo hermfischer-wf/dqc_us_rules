@@ -1,12 +1,13 @@
 # XBRL US Data Quality Committee Rules
 
-dqc_us_rules is a plugin for Arelle that contains the agreed upon set of rules for the XBRL US Data Quality Committee
+dqc_us_rules is a plugin for Arelle 
 
 ## dqc_us_rules contains:
 
 * Draft rules that the XBRL US Data Quality Committee approved to expose for public comment
 * Reference implementation of the draft rules, using Arelle as an XBRL processor
 * Unit tests for the reference implementation
+* Test suite
 
 ## Deployment
 
@@ -55,6 +56,10 @@ To run the unit tests, simply run the included shell script
 
     ./run-unit-tests.sh
 
+### Running test suite
+
+See documentation in the test suite
+
 ## Rule Index
 
 The rule definition index is [here](docs/README.md).
@@ -62,3 +67,13 @@ The rule definition index is [here](docs/README.md).
 ## Change Management
 
 We actively accept, and encourage, pull requests for code changes.  An explanation of the change is required, and the request will be reviewed by the technical leads of the project.  If the request is accepted, and if required, approved by the Committee, it will be merged into the master branch.  If it is found to be missing something, or incomplete, commments will be noted regarding the missing or incomplete pieces.
+
+## License
+
+All material contained in the dqc_us_rules GitHub repository is copyrighted as follows, whether the copyright is carried explicitly in the material (such as .md files, program code and some .xml files), or not in the file (such as .csv files, which have no means of embedding copyright and legal wording):
+
+© Copyright 2015, XBRL US Inc, All rights reserved   
+© Copyright 2015, Workiva Inc., All rights reserved
+
+These draft guidelines and validation rules are being provided solely in connection with the Data Quality Committee’s consideration regarding whether to eventually provide the public with a royalty-free, worldwide, perpetual license; until approved for such use, they may not be used, stored, copied, published, or otherwise distributed without the prior written consent of the copyright holders above. 
+
